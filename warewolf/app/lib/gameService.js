@@ -109,3 +109,45 @@ export const subscribeToRoom = (roomId, callback) => {
   // ส่ง function สำหรับยกเลิกการดักฟังกลับไป (เผื่อคนปิดหน้าเว็บ)
   return unsubscribe;
 };
+
+// ฟังก์ชันเริ่มเกม (Host only)
+export const startGame = async (roomId, playersData, config) => {
+  // playersData คือ object ของผู้เล่นทั้งหมดในห้อง
+  // config คือจำนวน role เช่น { werewolf: 2, seer: 1, villager: 3 }
+
+  const playerIds = Object.keys(playersData);
+  const totalPlayers = playerIds.length;
+  
+  // 1. สร้างกองไพ่ (Deck Construction)
+  let deck = [];
+  deck.push(...Array(config.werewolf).fill("werewolf"));
+  deck.push(...Array(config.seer).fill("seer"));
+  deck.push(...Array(config.villager).fill("villager"));
+  // (ถ้ามี role อื่นเพิ่ม ก็มาเพิ่มบรรทัดตรงนี้)
+
+  // Validation: เช็คว่าการ์ดครบคนไหม
+  if (deck.length !== totalPlayers) {
+    throw new Error(`จำนวนคน (${totalPlayers}) ไม่เท่ากับจำนวนการ์ด (${deck.length})`);
+  }
+
+  // 2. สับไพ่ (Fisher-Yates Shuffle Algorithm)
+  // นี่คือสูตรสลับตำแหน่ง array ที่ได้มาตรฐานโลก
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+
+  // 3. แจกไพ่ (เตรียมข้อมูล Update)
+  const updates = {};
+  
+  // เปลี่ยนสถานะห้องเป็น playing
+  updates[`rooms/${roomId}/status`] = "playing";
+
+  // วนลูปยัด role ให้แต่ละคน
+  playerIds.forEach((uid, index) => {
+    updates[`rooms/${roomId}/players/${uid}/role`] = deck[index];
+  });
+
+  // ยิงขึ้น Firebase ทีเดียว (Atomic Update)
+  await update(ref(db), updates);
+};
