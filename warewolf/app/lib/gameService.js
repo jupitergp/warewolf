@@ -120,10 +120,14 @@ export const startGame = async (roomId, playersData, config) => {
   
   // 1. สร้างกองไพ่ (Deck Construction)
   let deck = [];
-  deck.push(...Array(config.werewolf).fill("werewolf"));
-  deck.push(...Array(config.seer).fill("seer"));
-  deck.push(...Array(config.villager).fill("villager"));
-  // (ถ้ามี role อื่นเพิ่ม ก็มาเพิ่มบรรทัดตรงนี้)
+  // วนลูป Key ทุกตัวใน Config (werewolf, seer, villager, bodyguard, ...)
+  // แล้วยัดใส่ Deck ตามจำนวนที่ระบุ
+  Object.keys(config).forEach((role) => {
+    const count = config[role] || 0;
+    if (count > 0) {
+      deck.push(...Array(count).fill(role));
+    }
+  });
 
   // Validation: เช็คว่าการ์ดครบคนไหม
   if (deck.length !== totalPlayers) {
