@@ -151,3 +151,12 @@ export const startGame = async (roomId, playersData, config) => {
   // ยิงขึ้น Firebase ทีเดียว (Atomic Update)
   await update(ref(db), updates);
 };
+
+//  ฟังก์ชันจบเกม / เริ่มใหม่ (Host only)
+export const resetGame = async (roomId) => {
+  const updates = {};
+  updates[`rooms/${roomId}/status`] = "waiting";
+  
+  // (Optional) ล้าง Role ของทุกคนออกด้วยก็ได้ แต่แค่เปลี่ยน status ก็พอสำหรับ MVP
+  await update(ref(db), updates);
+};
