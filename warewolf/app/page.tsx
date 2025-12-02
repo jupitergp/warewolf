@@ -15,7 +15,7 @@ export default function Home() {
   // Auth Logic (เหมือนเดิม)
   useEffect(() => {
     loginAnonymously();
-    const unsubscribe = onUserChanged((currentUser) => {
+    const unsubscribe = onUserChanged((currentUser: any) => {
       if (currentUser) {
         setUser(currentUser);
         setLoading(false);
