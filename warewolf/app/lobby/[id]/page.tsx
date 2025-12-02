@@ -40,7 +40,7 @@ export default function LobbyPage() {
 
   useEffect(() => {
     if (!currentUser) { router.push("/"); return; }
-    const unsubscribe = subscribeToRoom(id as string, (data) => {
+    const unsubscribe = subscribeToRoom(id as string, (data: any) => {
       if (data) setRoomData(data);
       else { alert("ไม่พบห้องนี้!"); router.push("/"); }
     });
