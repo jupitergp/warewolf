@@ -94,3 +94,18 @@ export const joinRoom = async (roomId, playerName) => {
 
   return safeRoomId;
 };
+
+// ฟังก์ชันดักฟังข้อมูลห้อง (Real-time Listener)
+export const subscribeToRoom = (roomId, callback) => {
+  const safeRoomId = roomId.toUpperCase();
+  const roomRef = ref(db, `rooms/${safeRoomId}`);
+
+  // onValue จะทำงานทุกครั้งที่ข้อมูลใน Database เปลี่ยน
+  const unsubscribe = onValue(roomRef, (snapshot) => {
+    const data = snapshot.val();
+    callback(data); // ส่งข้อมูลล่าสุดกลับไปให้หน้าเว็บ
+  });
+
+  // ส่ง function สำหรับยกเลิกการดักฟังกลับไป (เผื่อคนปิดหน้าเว็บ)
+  return unsubscribe;
+};

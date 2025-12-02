@@ -31,8 +31,8 @@ export default function Home() {
     try {
       const roomId = await createRoom(name);
       alert(`สร้างห้องสำเร็จ! รหัสห้องคือ: ${roomId}`);
-      // เดี๋ยวเราจะให้มันเด้งไปหน้า Lobby ใน Phase ต่อไป
-      // router.push(`/lobby/${roomId}`); 
+      // เดี๋ยวเราจะให้มันเด้งไปหน้า Lobby 
+      router.push(`/lobby/${roomId}`); 
     } catch (error) {
       console.error(error);
       alert("เกิดข้อผิดพลาดในการสร้างห้อง");
@@ -46,7 +46,7 @@ export default function Home() {
       try {
         await joinRoom(joinRoomId, name);
         alert(`เข้าร่วมห้อง ${joinRoomId} สำเร็จ!`);
-        // router.push(`/lobby/${joinRoomId}`); // เดี๋ยวเปิดใช้ในเฟสหน้า
+        router.push(`/lobby/${joinRoomId}`); 
       } catch (error: any) {
         console.error(error);
         alert(error.message || "เข้าร่วมห้องไม่สำเร็จ");
