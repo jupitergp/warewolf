@@ -55,7 +55,7 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center p-6 bg-zinc-900 text-white">
-      <h1 className="text-4xl font-bold mb-8 text-red-500">WAREWOLF MVP</h1>
+      <h1 className="text-4xl font-bold mb-8 text-red-500">WEREWOLF MVP</h1>
 
       {loading ? (
         <p>กำลังโหลด...</p>
