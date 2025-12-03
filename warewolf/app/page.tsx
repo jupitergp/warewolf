@@ -1,4 +1,4 @@
-import HomeClient from "./HomeClient"; /
+import HomeClient from "./HomeClient"; 
 
 // ส่วนนี้จะทำงานได้แล้ว เพราะหน้านี้ไม่มี "use client"
 export const metadata = {
