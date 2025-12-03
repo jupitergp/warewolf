@@ -4,6 +4,11 @@ import { useEffect, useState } from "react";
 import { loginAnonymously, onUserChanged, createRoom, joinRoom } from "./lib/gameService";
 import { useRouter } from "next/navigation"; // ใช้สำหรับเปลี่ยนหน้า
 
+export const metadata = {
+  title: 'Werewolf Board Game Helper - แอพช่วยเล่นเกมมนุษย์หมาป่า',
+  description: 'อุปกรณ์ช่วยเล่นบอร์ดเกม Werewolf (มนุษย์หมาป่า) ใช้งานฟรี ไม่ต้องโหลดแอพ สุ่มบทบาทและจับเวลาได้ทันที',
+  keywords: ['werewolf', 'board game', 'แอพช่วยเล่น', 'บอร์ดเกม', 'มนุษย์หมาป่า'],
+}
 
 export default function Home() {
   const [user, setUser] = useState<any>(null);
